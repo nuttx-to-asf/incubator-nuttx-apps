@@ -194,7 +194,7 @@ static int ipcfg_open(FAR const char *netdev, int oflags, mode_t mode)
     {
       /* Assume failure to allocate memory */
 
-      fprintf(stderr, "ERROR: Failed to create path to ipcfg file: %d\n");
+      fprintf(stderr, "ERROR: Failed to create path to ipcfg file\n");
       return -ENOMEM;
     }
 
@@ -414,19 +414,19 @@ int ipcfg_read(FAR const char *netdev, FAR struct ipcfg_s *ipcfg)
             }
           else if (strcmp(variable, "BOOTPROTO") == 0)
             {
-              if (strcmp(variable, "none") == 0)
+              if (strcmp(value, "none") == 0)
                 {
                   ipcfg->proto = BOOTPROTO_NONE;
                 }
-              else if (strcmp(variable, "static") == 0)
+              else if (strcmp(value, "static") == 0)
                 {
                   ipcfg->proto = BOOTPROTO_STATIC;
                 }
-              else if (strcmp(variable, "dhcp") == 0)
+              else if (strcmp(value, "dhcp") == 0)
                 {
                   ipcfg->proto = BOOTPROTO_DHCP;
                 }
-              else if (strcmp(variable, "fallback") == 0)
+              else if (strcmp(value, "fallback") == 0)
                 {
                   ipcfg->proto = BOOTPROTO_FALLBACK;
                 }
