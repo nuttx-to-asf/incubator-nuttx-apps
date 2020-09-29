@@ -233,7 +233,7 @@ errout_with_path:
 #endif
 
 /****************************************************************************
- * Name: ipcfg_skipspace
+ * Name: ipcfg_trim
  *
  * Description:
  *   Skip over any whitespace.
@@ -248,14 +248,27 @@ errout_with_path:
  ****************************************************************************/
 
 #ifndef CONFIG_IPCFG_BINARY
-static int ipcfg_skipspace(FAR const char *line, int index)
+static int ipcfg_trim(FAR char *line, int index)
 {
+  int ret;
   while (line[index] != '\0' && isspace(line[index]))
     {
       index++;
     }
 
-  return index;
+  ret = index;
+  while (line[index] != '\0')
+    {
+      if (!isprint(line[index]))
+        {
+          line[index] = '\0';
+          break;
+        }
+
+      index++;
+    }
+
+  return ret;
 }
 #endif
 
@@ -377,7 +390,7 @@ int ipcfg_read(FAR const char *netdev, FAR struct ipcfg_s *ipcfg)
     {
       /* Skip any leading whitespace */
 
-      index = ipcfg_skipspace(line, 0);
+      index = ipcfg_trim(line, 0);
 
       /* Check for a blank line or a comment */
 
